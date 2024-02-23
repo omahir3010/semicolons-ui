@@ -5,12 +5,21 @@ import { Amplify } from "aws-amplify";
 import config from "../../src/amplifyconfiguration.json";
 import { getCurrentUser } from 'aws-amplify/auth';
 import ContentPage from '@/views/ContentPage.vue'
+import WelcomePage from '@/views/WelcomePage.vue'
+import ChatBot from '@/components/ChatBot.vue'
 Amplify.configure(config);
 
 export default{
   components:{
     Authenticator,
-    ContentPage
+    ContentPage,
+    ChatBot,
+    WelcomePage
+  },
+  data(){
+    return{
+      chatBotToggle:false,
+    }
   },
   mounted(){
     console.log('Mounted')
@@ -20,6 +29,7 @@ export default{
     console.log('beforeUpdate')
     this.currentAuthenticatedUser();
   },
+
   methods:{
     async currentAuthenticatedUser() {
   try {
@@ -30,6 +40,13 @@ export default{
   } catch (err) {
     console.log(err);
   }
+},
+showChatBot(){
+  this.chatBotToggle = true
+},
+getChatBoxToggleStatus(event){
+  console.log(event);
+  this.chatBotToggle = event;
 }
   }
 }
@@ -39,9 +56,13 @@ export default{
 <template>
   <authenticator>
     <template v-slot="{ user, signOut }">
+      <WelcomePage />
       <h1>Hello {{ user.username }}!</h1>
       <button @click="signOut">Sign Out</button>
-      <ContentPage />
+      <div v-if="chatBotToggle"><ContentPage @emitChatBotToggleEvent="getChatBoxToggleStatus" /></div>
+     <div v-if="!chatBotToggle" @click="showChatBot">
+      <ChatBot />
+     </div>
     </template>
   </authenticator>
 </template>

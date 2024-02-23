@@ -10,7 +10,9 @@
   "dependencies": {
     "@aws-amplify/ui-vue": "^4.2.0",
     "aws-amplify": "^6.0.16",
+    "axios": "^1.6.7",
     "core-js": "^3.8.3",
+    "mitt": "^3.0.1",
     "vue": "^3.2.13"
   },
   "devDependencies": {
