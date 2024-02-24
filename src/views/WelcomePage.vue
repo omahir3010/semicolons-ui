@@ -40,33 +40,25 @@
                                 <!-- <div>
                                     <p class="mt-4">Revision Notes</p>
                                 </div> -->
+                                <Dialog v-model:visible="revisionEmptyModal" header="Empty Field Alert"
+                                    :style="{ width: '25rem' }" class="bg-blur">
+                                    <div>
+                                        Please Select the Class, Subject and Chapter!
+                                    </div>
+                                </Dialog>
                                 <button
                                     class="text-black  bg-white border-[1px] border-black w-[150px] h-[35px] font-light text-[14px] hover:bg-[#FDE047] rounded-3xl mt-[33px]"
-                                    @click="visibleTextGeneration = true"> Create Revision Notes</button>
+                                    @click="executeRevisionNotesFunc"> Create Revision Notes</button>
                                 <Dialog v-model:visible="visibleNotesGeneration" modal header="Notes Generation"
                                     :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                                    <p class="mb-5">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                    <p class="mb-5">
-                                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
-                                        quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
-                                        magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                                        exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-                                        ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate
-                                        velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-                                        voluptas nulla pariatur?
-                                    </p>
+                                    <div>
+                                        <div v-for="note in revisonNotesArr" :key="note.count" class="m-2">
+                                            <span class="font-bold">{{ note.count }}. </span> {{ note.notes }}
+                                        </div>
+                                    </div>
+                                    <div class="w-[100%] flex justify-center" v-if="loadingSpinner">
+                                        <img src="../assets/spinner.gif" alt="">
+                                    </div>
 
                                 </Dialog>
                             </div>
@@ -79,31 +71,46 @@
 
                                 <button
                                     class="text-black  bg-white border-[1px] border-black w-[150px] h-[35px] font-light text-[14px] hover:bg-[#FDE047] rounded-3xl mt-[25px]"
-                                    @click="visibleTextGeneration = true">Create Practice Test</button>
+                                    @click="executeQuestionsAnswersGenerationFunc">Create Practice Test</button>
                                 <Dialog v-model:visible="visibleTextGeneration" modal header="Text Generation"
                                     :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                                    <p class="mb-5">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                    <p class="mb-5">
-                                        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
-                                        quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
-                                        magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                                        exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
-                                        ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate
-                                        velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-                                        voluptas nulla pariatur?
-                                    </p>
+                                    <div>
+                                        <div v-for=" qa in questionsAnswersObj['fill_in_the_blanks']" :key="qa"
+                                            class="mt-6">
+                                            <h3 class="font-semibold">Fill In the Blanks</h3>
+                                            <br>
+                                            <div v-for="QAWithOPtions in qa" :key="QAWithOPtions">
+                                                {{ QAWithOPtions['fill_in_the_blank_statement'] }}
+
+                                                <br>
+                                                <ol type="A">
+                                                    <li>{{ QAWithOPtions['option'] }}</li>
+                                                </ol>
+
+                                            </div>
+                                        </div>
+
+                                        <div v-for=" qa in questionsAnswersObj['question_40_words']" :key="qa" class="mt-6">
+                                            <h3 class="font-semibold">Questions/Answers in 40 Words</h3>
+                                            <br>
+                                            {{ qa['question_40_words'] }}
+                                        </div>
+
+                                        <div v-for=" qa in questionsAnswersObj['question_100_words']" :key="qa"
+                                            class="mt-6">
+                                            <h3 class="font-semibold">Questions/Answers in 100 Words</h3>
+                                            <br>
+                                            {{ qa['question_100_words'] }}
+                                        </div>
+                                        <div v-for=" qa in questionsAnswersObj['true_false']" :key="qa" class="mt-6">
+                                            <h3 class="font-semibold">True OR False</h3>
+                                            <br>
+                                            {{ qa['question'] }}
+                                        </div>
+                                    </div>
+                                    <div class="w-[100%] flex justify-center" v-if="loadingSpinner">
+                                        <img src="../assets/spinner.gif" alt="">
+                                    </div>
 
                                 </Dialog>
                             </div>
@@ -209,6 +216,10 @@ export default {
             chatBotToggle: false,
             visibleTextGeneration: false,
             visibleNotesGeneration: false,
+            revisionEmptyModal: false,
+            revisonNotesArr: [],
+            questionsAnswersObj: {},
+            loadingSpinner:false,
             subjectsArr: [
                 {
                     name: 'class 10', code: '10', subjects: [
@@ -1133,6 +1144,35 @@ export default {
                 console.log('error signing out: ', error);
             }
         },
+        executeRevisionNotesFunc() {
+            if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
+                this.visibleNotesGeneration = true;
+                this.loadingSpinner = true;
+                let queryParams = `?class=${this.currentClass}&subject=${this.currentSubject}&chapter=${this.currentChapter}`
+                axios.get(`https://89opn429x6.execute-api.us-east-1.amazonaws.com/default/Notes_Generation` + queryParams, {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }).then((response) => {
+                    let count = 1;
+                    this.revisonNotesArr = response.data;
+                    this.revisonNotesArr.forEach((note) => {
+                        note['count'] = count;
+                        count++;
+                        console.log(note)
+                    })
+                    this.loadingSpinner = false;
+                    console.log(this.revisonNotesArr)
+                }).catch((err) => {
+                    console.log('Err: ', err)
+                })
+            }
+            else {
+                this.revisionEmptyModal = true;
+            }
+
+
+        },
         async sendMessage(message) {
             if (message.length > 0) {
                 let queryParams = `?class=${this.currentClass}&subject=${this.currentSubject}&chapter=${this.currentChapter}&message=${message}`
@@ -1143,15 +1183,15 @@ export default {
                 }).then((response) => {
                     console.log(response.data);
                     let msgArr1 = {
-                    "from": {
-                        "type": "user"
-                    },
-                    "msg": {
-                        "message": message
+                        "from": {
+                            "type": "user"
+                        },
+                        "msg": {
+                            "message": message
 
+                        }
                     }
-                }
-                this.getMessagesArr.push(msgArr1);
+                    this.getMessagesArr.push(msgArr1);
                     let msgArr2 = {
                         "from": {
                             "type": "gpt"
@@ -1171,13 +1211,38 @@ export default {
         },
         emitEvent() {
             this.chatBotToggle = false
+        },
+        executeQuestionsAnswersGenerationFunc() {
+            this.visibleTextGeneration = true
+            this.loadingSpinner = true;
+            if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
+                let queryParams = `?class=${this.currentClass}&subject=${this.currentSubject}&chapter=${this.currentChapter}`
+                axios.get(`https://9eg8b2emwc.execute-api.us-east-1.amazonaws.com/default/Test_Generation` + queryParams, {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }).then((response) => {
+                    this.questionsAnswersObj = response.data;
+                    console.log(this.questionsAnswersObj);
+                    this.loadingSpinner = false;
+
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
+            else {
+                this.revisionEmptyModal = true;
+            }
+
         }
+
 
     }
 }
 </script>
 
-<style>@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
 
 .p-cascadeselect .p-cascadeselect-label.p-placeholder {
     color: red !important;
