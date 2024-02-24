@@ -16,7 +16,7 @@
     height: 70px;
     border-radius: 50%;
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 20px;
+    bottom: 15px;
 }
 </style>

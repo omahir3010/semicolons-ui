@@ -1,9 +1,9 @@
 <template>
     <body class="bg-yellow-300">
         <header class="py-4">
-            <div class="container mx-auto flex justify-between items-center px-6">
+            <div class="container  flex justify-between items-center ml-[90px] mt-[10px]">
                 <div class="text-white">
-                    <a href="#" class="text-xl text-black font-semibold">Persistent Semicolons</a>
+                    <img src="../assets/scholar.png" alt="" class="w-[140px] h-[70px]">
                 </div>
                 <nav class="flex space-x-4">
                     <!-- <a href="#" class="text-white bg-black w-[120px] h-[40px] pt-[8px] font-semibold">Chapters</a> -->
@@ -17,24 +17,28 @@
                 </nav>
             </div>
         </header>
-        <main class="py-10">
-            <div class="container mx-auto px-6 flex">
-                <div class="mt-12">
-                    <h1 class="text-[30px] font-bold text-black mb-4" id="title">AI Scholar's</h1>
-                    <p class="text-xl text-black mb-8">Speed Up The Skill Acquisition Process By Finding Unlimited Courses
-                        That
-                        Matches Your Niche.</p>
-                    <div class="flex" v-if="getSignedInState">
-                        <div class=" ml-[43px] border-[2px] shadow-2xl border-black w-[180px] h-[220px]">
+        <main class="py-3">
+            <div class="container flex ml-[120px]" style="justify-content: space-between;">
+                <div>
+                    <h1 class=" font-bold text-black mb-4" id="title">
+                        <!-- <img src="../assets/scholar.png" alt="" class="w-[150px] h-[70px]"> -->
+                    </h1>
+                    <p class="text-xl text-black mb-8">
+                        Personalized Learning Companion for next Gen Students.</p>
+                    <div class="flex bg-black h-[320px] w-[465px] rounded-md" v-if="getSignedInState">
+                        <div class=" ml-[33px] bg-white mt-[50px] rounded-md w-[180px] h-[220px]">
                             <div class="card ">
                                 <div>
-                                   <h2 class="mt-6 font-semibold text-[28px]">
-                                    Text Generation
-                                   </h2>
+                                    <img src="../assets/img2.png" class="mt-3" alt="">
                                 </div>
-                                <button class="text-white bg-black w-[100px] h-[40px] font-semibold rounded-3xl mt-[30px]" @click="visibleTextGeneration = true" >Show</button>
-                                <Dialog v-model:visible="visibleTextGeneration" modal header="Text Generation" :style="{ width: '50rem' }"
-                                    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                                <!-- <div>
+                                    <p class="mt-4">Revision Notes</p>
+                                </div> -->
+                                <button
+                                    class="text-black  bg-white border-[1px] border-black w-[150px] h-[35px] font-light text-[14px] hover:bg-[#FDE047] rounded-3xl mt-[33px]"
+                                    @click="visibleTextGeneration = true"> Create Revision Notes</button>
+                                <Dialog v-model:visible="visibleNotesGeneration" modal header="Notes Generation"
+                                    :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                                     <p class="mb-5">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -61,16 +65,17 @@
                                 </Dialog>
                             </div>
                         </div>
-                        <div class=" border-[2px] shadow-2xl border-black w-[180px] h-[220px] ml-[40px]">
+                        <div class=" ml-[33px] bg-white mt-[50px] rounded-md w-[180px] h-[220px]">
                             <div class="card ">
                                 <div>
-                                   <h2 class="mt-6 font-semibold text-[28px]">
-                                    Notes Generation
-                                   </h2>
+                                    <img src="../assets/img1.png" class="mt-3" alt="">
                                 </div>
-                                <button class="text-white bg-black w-[100px] h-[40px] font-semibold rounded-3xl mt-[30px]" @click="visibleNotesGeneration = true" >Show</button>
-                                <Dialog v-model:visible="visibleNotesGeneration" modal header="Notes Generation" :style="{ width: '50rem' }"
-                                    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+
+                                <button
+                                    class="text-black  bg-white border-[1px] border-black w-[150px] h-[35px] font-light text-[14px] hover:bg-[#FDE047] rounded-3xl mt-[25px]"
+                                    @click="visibleTextGeneration = true">Create Practice Test</button>
+                                <Dialog v-model:visible="visibleTextGeneration" modal header="Text Generation"
+                                    :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                                     <p class="mb-5">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -95,12 +100,45 @@
                                     </p>
 
                                 </Dialog>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="flex bg-black h-[320px] w-[665px] rounded-md" v-if="!getSignedInState">
+                        <div class=" ml-[33px] bg-white mt-[50px] rounded-md w-[180px] h-[220px]">
+                            <div class="card ">
+                                <div>
+                                    <img src="../assets/img2.png" class="mt-3" alt="">
+                                </div>
+                                <div>
+                                    <p class="mt-7">Revision Notes</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" ml-[33px] bg-white mt-[50px] rounded-md w-[180px] h-[220px]">
+                            <div class="card ">
+                                <div>
+                                    <img src="../assets/img1.png" class="mt-3" alt="">
+                                </div>
+                                <div>
+                                    <p class="mt-5">Practice Test</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" ml-[33px] bg-white mt-[50px] rounded-md w-[180px] h-[220px]">
+                            <div class="card ">
+                                <div>
+                                    <img src="../assets/img2.png" class="mt-3" alt="">
+                                </div>
+                                <div>
+                                    <p class="mt-7">Doubt Solving</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-10 flex justify-center">
-                    <img src="../assets/studying.png"
+                <div class="mt-10 ml-2 flex justify-center">
+                    <img src="../assets/studying.png" class="w-[400px] h-[400px]"
                         alt="Illustration of people engaging in different learning activities, such as reading, using computers, and painting, to represent the variety of courses available.">
                 </div>
             </div>
@@ -137,11 +175,11 @@
 
             </div>
         </main>
-        <footer class="py-6">
+        <!-- <footer class="py-6">
             <div class="container mx-auto px-6">
                 <p class="text-black text-center">© 2024 MÖNAC. All rights reserved.</p>
             </div>
-        </footer>
+        </footer> -->
     </body>
 </template>
 
@@ -198,7 +236,8 @@ export default {
             }
         },
         async getMessages() {
-            await axios.get('http://localhost:3000/chat').then((response) => {
+            // let queryParams = `?class=${}&subject=${}&chapter=${}&message=${message}`
+            await axios.get(`https://0em0ebzuqf.execute-api.us-east-1.amazonaws.com/default/Doubt_Solving`).then((response) => {
                 this.getMessagesArr = response.data;
                 console.log(this.getMessagesArr);
 
