@@ -18,5 +18,6 @@
     position: absolute;
     right: 20px;
     bottom: 15px;
+    position: fixed;
 }
 </style>

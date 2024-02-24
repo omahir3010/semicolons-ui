@@ -99,7 +99,7 @@ getChatBoxToggleStatus(event){
 <template>
   <WelcomePage v-if="!getAuthState"  />
 
-  <div v-if="getAuthState" >
+  <div v-if="getAuthState" class="pt-12">
     
   <authenticator>
     <template v-slot="{ user, signOut }">

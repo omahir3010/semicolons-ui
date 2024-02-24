@@ -2,13 +2,19 @@
     <body class="bg-yellow-300">
         <header class="py-4">
             <div class="container  flex justify-between items-center ml-[90px] mt-[10px]">
-                <div class="text-white">
+                <div class="text-white flex">
                     <img src="../assets/scholar.png" alt="" class="w-[140px] h-[70px]">
                 </div>
                 <nav class="flex space-x-4">
                     <!-- <a href="#" class="text-white bg-black w-[120px] h-[40px] pt-[8px] font-semibold">Chapters</a> -->
                     <!-- <a href="#" class="text-black font-semibold"></a>
                     <a href="#" class="text-black font-semibold">Course</a> -->
+                    <div class="card flex justify-content-center" v-if="getSignedInState">
+                        <CascadeSelect v-model="selectedCity" @group-change="getCurrentSelectedValueGroup"
+                            @change="getCurrentlySelectValue" :options="subjectsArr" optionLabel="cname"
+                            optionGroupLabel="name" :optionGroupChildren="['subjects', 'chapters']" style="min-width: 14rem"
+                            placeholder="Select a Chapter" />
+                    </div>
                     <a href="#" class="text-white bg-black w-[100px] h-[40px] pt-[8px] font-semibold rounded-3xl"
                         v-if="!getSignedInState" @click="openAuth()">Log In</a>
                     <a href="#" class="text-white bg-black w-[100px] h-[40px] pt-[8px] font-semibold rounded-3xl"
@@ -143,15 +149,16 @@
                 </div>
             </div>
             <div v-if="getSignedInState" @click="showChatBot">
-                <ChatBot />
+                <ChatBot v-if="currentClass && currentSubject && currentChapter"></ChatBot>
             </div>
             <div class="chatbox-container" v-if="getSignedInState && chatBotToggle">
                 <div class="container1">
-                    <h1 class="bot-header">Ai Chat Bot <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" height="25px" width="25px" style="margin-top: 6px;" @click="emitEvent">
+                    <p class="bot-header text-[20px] mt-[19px]">Scholar Assistant <svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" height="25px" width="25px" style="cursor: pointer;"
+                            @click="emitEvent">
                             <path
                                 d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-                        </svg></h1>
+                        </svg></p>
 
                     <div class="messageBox mt-8">
                         <template v-for="message in getMessagesArr" :key="message.id">
@@ -201,7 +208,882 @@ export default {
             getMessagesArr: [],
             chatBotToggle: false,
             visibleTextGeneration: false,
-            visibleNotesGeneration: false
+            visibleNotesGeneration: false,
+            subjectsArr: [
+                {
+                    name: 'class 10', code: '10', subjects: [
+                        {
+                            name: 'English', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+
+                            ],
+                        },
+                        {
+                            name: 'Mathematics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                                {
+                                    cname: 'Chapter 13',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Social Science', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                            ],
+                        },
+
+                    ],
+                },
+                {
+                    name: 'class 11', code: '11', subjects: [
+                        {
+                            name: 'English', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                                {
+                                    cname: 'Chapter 13',
+                                },
+                                {
+                                    cname: 'Chapter 14',
+                                },
+                                {
+                                    cname: 'Chapter 15',
+                                },
+                                {
+                                    cname: 'Chapter 16',
+                                },
+                                {
+                                    cname: 'Chapter 17',
+                                },
+                                {
+                                    cname: 'Chapter 18',
+                                },
+                                {
+                                    cname: 'Chapter 19',
+                                },
+                                {
+                                    cname: 'Chapter 20',
+                                },
+                                {
+                                    cname: 'Chapter 21',
+                                },
+                                {
+                                    cname: 'Chapter 22',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Mathematics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                                {
+                                    cname: 'Chapter 13',
+                                },
+                            ],
+                        },
+
+                        {
+                            name: 'Accountancy', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+
+                            ],
+                        },
+                        {
+                            name: 'Biology', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                                {
+                                    cname: 'Chapter 13',
+                                },
+                                {
+                                    cname: 'Chapter 14',
+                                },
+                                {
+                                    cname: 'Chapter 16',
+                                },
+                                {
+                                    cname: 'Chapter 18',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Business Studies', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+
+                            ],
+                        },
+                        {
+                            name: 'Chemistry', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Computer Science', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                            ],
+                        },
+
+                        {
+                            name: 'Economics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Geography', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                                {
+                                    cname: 'Chapter 13',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'History', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Informatics Practices', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Physics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+
+                            ],
+                        },
+                        {
+                            name: 'Political Science', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                            ],
+                        },
+
+                    ],
+                },
+                {
+                    name: 'class 12', code: '12', subjects: [
+                        {
+                            name: 'Accountancy', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Biology', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                            ],
+                        },
+
+                        {
+                            name: 'Business Studies', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Chemistry', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Computer Science', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                                {
+                                    cname: 'Chapter 8',
+                                },
+                                {
+                                    cname: 'Chapter 9',
+                                },
+                                {
+                                    cname: 'Chapter 10',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Creative Writing & Translation', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Economics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'English', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 11',
+                                },
+                                {
+                                    cname: 'Chapter 12',
+                                },
+                                {
+                                    cname: 'Chapter 13',
+                                },
+                                {
+                                    cname: 'Chapter 14',
+                                },
+                                {
+                                    cname: 'Chapter 15',
+                                },
+                                {
+                                    cname: 'Chapter 16',
+                                },
+                                {
+                                    cname: 'Chapter 17',
+                                },
+                                {
+                                    cname: 'Chapter 18',
+                                },
+
+                            ],
+                        },
+                        {
+                            name: 'Geography', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'History', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Informatics Practices', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Mathematics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Physics', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                                {
+                                    cname: 'Chapter 7',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'Political Science', chapters: [
+                                {
+                                    cname: 'Chapter 1',
+                                },
+                                {
+                                    cname: 'Chapter 2',
+                                },
+                                {
+                                    cname: 'Chapter 3',
+                                },
+                                {
+                                    cname: 'Chapter 4',
+                                },
+                                {
+                                    cname: 'Chapter 5',
+                                },
+                                {
+                                    cname: 'Chapter 6',
+                                },
+                            ],
+                        },
+
+
+                    ],
+                },
+            ],
+            currentClass: '',
+            currentSubject: '',
+            currentChapter: ''
 
         }
     },
@@ -215,13 +1097,29 @@ export default {
             }
         }
     },
-    mounted() {
-        this.getMessages();
-    },
     methods: {
         openAuth() {
             localStorage.setItem('authState', true);
             location.reload();
+        },
+        getCurrentlySelectValue(event) {
+            this.currentChapter = event['value']['cname'];
+
+            console.log('Class: ', this.currentClass);
+            console.log('Subject: ', this.currentSubject);
+            console.log('Chapter: ', this.currentChapter)
+
+        },
+        getCurrentSelectedValueGroup(event) {
+            // console.log(Object.keys(event.value))
+            if (Object.keys(event.value).includes('subjects')) {
+                console.log(event['value'])
+                this.currentClass = event['value']['code'];
+            }
+            if (Object.keys(event.value).includes('chapters')) {
+                // console.log(event['value']['name'])
+                this.currentSubject = event['value']['name'];
+            }
         },
         showChatBot() {
             this.chatBotToggle = true
@@ -235,34 +1133,41 @@ export default {
                 console.log('error signing out: ', error);
             }
         },
-        async getMessages() {
-            // let queryParams = `?class=${}&subject=${}&chapter=${}&message=${message}`
-            await axios.get(`https://0em0ebzuqf.execute-api.us-east-1.amazonaws.com/default/Doubt_Solving`).then((response) => {
-                this.getMessagesArr = response.data;
-                console.log(this.getMessagesArr);
-
-            }).catch((err) => {
-                console.log('Caught an Error: ', err)
-            })
-        },
         async sendMessage(message) {
-            let msgArr = {
-                "from": {
-                    "type": "gpt"
-                },
-                "msg": {
-                    "message": message
+            if (message.length > 0) {
+                let queryParams = `?class=${this.currentClass}&subject=${this.currentSubject}&chapter=${this.currentChapter}&message=${message}`
+                await axios.get(`https://0em0ebzuqf.execute-api.us-east-1.amazonaws.com/default/Doubt_Solving` + queryParams, {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }).then((response) => {
+                    console.log(response.data);
+                    let msgArr1 = {
+                    "from": {
+                        "type": "user"
+                    },
+                    "msg": {
+                        "message": message
 
+                    }
                 }
+                this.getMessagesArr.push(msgArr1);
+                    let msgArr2 = {
+                        "from": {
+                            "type": "gpt"
+                        },
+                        "msg": {
+                            "message": response.data.msg.message
+
+                        }
+                    }
+                    this.getMessagesArr.push(msgArr2);
+                    this.currentMessage = '';
+                }).catch((err) => {
+                    console.log('Caught an Error: ', err)
+                })
+
             }
-            this.getMessagesArr.push(msgArr);
-            await axios
-                .post('http://localhost:3000/chat', msgArr)
-                .then((response) => {
-                    console.log(response);
-
-                });
-
         },
         emitEvent() {
             this.chatBotToggle = false
@@ -272,14 +1177,28 @@ export default {
 }
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+<style>@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+
+.p-cascadeselect .p-cascadeselect-label.p-placeholder {
+    color: red !important;
+}
 
 .chatbox-container {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 1000;
+}
+
+.p-cascadeselect.p-component.p-inputwrapper {
+    min-width: 14rem;
+    background: black;
+    border-radius: 29px;
+    height: 45px;
+}
+
+.p-cascadeselect .p-cascadeselect-label.p-placeholder {
+    color: white !important;
 }
 
 @font-face {
