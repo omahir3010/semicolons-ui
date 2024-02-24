@@ -56,7 +56,7 @@
                                             <span class="font-bold">{{ note.count }}. </span> {{ note.notes }}
                                         </div>
                                     </div>
-                                    <div class="w-[100%] flex justify-center" v-if="loadingSpinner">
+                                    <div class="w-[100%] flex justify-center" v-show="loadingSpinner">
                                         <img src="../assets/spinner.gif" alt="">
                                     </div>
 
@@ -72,7 +72,7 @@
                                 <button
                                     class="text-black  bg-white border-[1px] border-black w-[150px] h-[35px] font-light text-[14px] hover:bg-[#FDE047] rounded-3xl mt-[25px]"
                                     @click="executeQuestionsAnswersGenerationFunc">Create Practice Test</button>
-                                <Dialog v-model:visible="visibleTextGeneration" modal header="Text Generation"
+                                <Dialog v-model:visible="visibleTextGeneration" modal header="Test Generation"
                                     :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
                                     <div>
                                         <div v-for=" qa in questionsAnswersObj['fill_in_the_blanks']" :key="qa"
@@ -1145,8 +1145,12 @@ export default {
             }
         },
         executeRevisionNotesFunc() {
-            if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
-                this.visibleNotesGeneration = true;
+            this.visibleNotesGeneration = true;
+            console.log('this.revisonNotesArr: ',this.revisonNotesArr)
+            if(this.revisonNotesArr.length > 0){
+                this.loadingSpinner = false;
+            }
+            else if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
                 this.loadingSpinner = true;
                 let queryParams = `?class=${this.currentClass}&subject=${this.currentSubject}&chapter=${this.currentChapter}`
                 axios.get(`https://89opn429x6.execute-api.us-east-1.amazonaws.com/default/Notes_Generation` + queryParams, {
@@ -1214,8 +1218,12 @@ export default {
         },
         executeQuestionsAnswersGenerationFunc() {
             this.visibleTextGeneration = true
-            this.loadingSpinner = true;
-            if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
+
+            if(this.questionsAnswersObj.length > 0){
+                this.loadingSpinner = false;
+            }
+            else if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
+                 this.loadingSpinner = true;
                 let queryParams = `?class=${this.currentClass}&subject=${this.currentSubject}&chapter=${this.currentChapter}`
                 axios.get(`https://9eg8b2emwc.execute-api.us-east-1.amazonaws.com/default/Test_Generation` + queryParams, {
                     headers: {
