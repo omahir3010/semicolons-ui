@@ -1145,7 +1145,8 @@ export default {
             }
         },
         executeRevisionNotesFunc() {
-            this.visibleNotesGeneration = true;
+        if (this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
+                this.visibleNotesGeneration = true;
             console.log('this.revisonNotesArr: ',this.revisonNotesArr)
             if(this.revisonNotesArr.length > 0){
                 this.loadingSpinner = false;
@@ -1166,6 +1167,7 @@ export default {
                 }).catch((err) => {
                     console.log('Err: ', err)
                 })
+            }
             }
             else {
                 this.revisionEmptyModal = true;
@@ -1209,8 +1211,8 @@ export default {
             this.chatBotToggle = false
         },
         executeQuestionsAnswersGenerationFunc() {
+        if ( this.currentClass.length > 0 && this.currentSubject.length > 0 && this.currentChapter.length > 0) {
             this.visibleTextGeneration = true
-
             if(this.questionsAnswersObj.length > 0){
                 this.loadingSpinner = false;
             }
@@ -1226,6 +1228,7 @@ export default {
                     console.log(error)
                 })
             }
+           }
             else {
                 this.revisionEmptyModal = true;
             }
